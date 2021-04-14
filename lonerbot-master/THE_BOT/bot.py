@@ -7,6 +7,8 @@ from builtins import input
 
 from discord.ext import commands
 from discord.ext.commands import has_permissions
+''
+
 
 prefix = "/"
 
@@ -37,6 +39,9 @@ async def invite(ctx):
     link = await ctx.channel.create_invite()
     await ctx.send("Here is your invite " + str(link))
 
+    channel = bot.get_channel(829978424126210079)
+    await channel.send(f"{ctx.author.name} has used command invite")
+
 
 ### COGS ###
 @bot.command()
@@ -62,6 +67,7 @@ async def unload(ctx):
         print("Error: " + str(e))
 
 
+
 @bot.command()
 async def reload(ctx):
     bot.unload_extension("Cogs.AdminCommands")
@@ -73,9 +79,34 @@ async def reload(ctx):
     bot.load_extension("Cogs.Commands")
 
     await ctx.send("Reloaded all cogs")
+    
+@bot.event
+async def on_member_join(member):
+    print(f"{member.name} = {member.id} joined")
+
+@bot.event
+async def on_member_remove(member):
+    print(f"{member.name} = {member.id} left")
+
+
+@bot.command()
+async def secret_invite(ctx, *, message=None):
+    user = bot.get_user(ctx.author.id)
+    print(f"{ctx.author.name}/{ctx.author.id} has been invited")
+    await user.send("https://discord.gg/qepBByDr3f")
+
+    message = message
+    await ctx.message.delete()
+
+@bot.command()
+async def DM(ctx, user: discord.User, *, message=None):
+    message = message or "This Message is sent via DM"
+    await user.send(message)
+
+    channel = bot.get_channel(829978424126210079)
+    await channel.send(f"{ctx.author.name} has used command DM")
+
 
 ###########
-
-
 
 bot.run(token)
