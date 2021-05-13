@@ -55,7 +55,8 @@ async def on_ready():
 
 @bot.command()
 async def ping(ctx):
-    await ctx.send(f"Ping: {bot.latency}")
+    ping = round(bot.latency, 3)
+    await ctx.send(f"Ping: " + str(ping))
 
 @bot.command()
 async def invite(ctx):
