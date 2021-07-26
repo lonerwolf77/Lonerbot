@@ -28,7 +28,8 @@ os.system('cls')
 
 @bot.event
 async def on_ready():
-    print("ToddBot 2.0 is online")
+    print("Logged in as: " + str(bot.user.name) + " : " + str(bot.user.id) + "\n"
+    "My current prefix is: " + "/" + "\n------------------------------")
     print("Running on discord version: " + discord.__version__)
 
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.playing,
@@ -55,7 +56,8 @@ async def on_ready():
 
 @bot.command()
 async def ping(ctx):
-    await ctx.send(f"Ping: {bot.latency}")
+    ping = round(bot.latency, 3)
+    await ctx.send(f"Ping: " + str(ping))
 
 @bot.command()
 async def invite(ctx):

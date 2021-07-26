@@ -32,7 +32,6 @@ class AdminCommands(commands.Cog):
         channel = self.bot.get_channel(829978424126210079)
         await channel.send(f"{ctx.author.name} has used command echo (the message was {message})")
 
-
     #maybe could be added some day problem is anyone could shut down the bot
 
     #@commands.command()
@@ -45,8 +44,6 @@ class AdminCommands(commands.Cog):
         #await channel.send(f"{ctx.author.name} has used command logout")
 
         #await self.bot.logout()
-
-
 
     @commands.command(pass_context=True)
     @commands.has_permissions(administrator=True)
@@ -62,12 +59,12 @@ class AdminCommands(commands.Cog):
         await member.ban(reason = reason)
         await ctx.send(str(member.mention) + " has been banned")
 
+        
+
         print(f"{ctx.author.id}/{ctx.author.name} has used command ban (person being banned {member.id}/{member.name}. from the server {ctx.message.guild.name})")
 
         channel = self.bot.get_channel(829978424126210079)
         await channel.send(f"{ctx.author.name} has used command ban (person being banned {member.id}/{member.name}. from the server {ctx.message.guild.name})")
-
-
 
     @commands.command(pass_context=True)
     @commands.has_permissions(administrator=True)
@@ -85,8 +82,6 @@ class AdminCommands(commands.Cog):
         channel = self.bot.get_channel(829978424126210079)
         await channel.send(f"{ctx.author.name} has used command kick (person being kicked {member.id}/{member.name}. from the server {ctx.message.guild.name})")
 
-
-
     @commands.command(pass_context=True)
     @commands.has_permissions(administrator=True)
     async def clear(self, ctx, ammount=50):
@@ -96,8 +91,6 @@ class AdminCommands(commands.Cog):
 
         channel = self.bot.get_channel(829978424126210079)
         await channel.send(f"{ctx.author.name} has used command clear (ammount {ammount})")
-
-
 
 def setup(bot):
 
