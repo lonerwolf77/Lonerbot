@@ -32,18 +32,6 @@ class AdminCommands(commands.Cog):
         channel = self.bot.get_channel(829978424126210079)
         await channel.send(f"{ctx.author.name} has used command echo (the message was {message})")
 
-    #maybe could be added some day problem is anyone could shut down the bot
-
-    #@commands.command()
-    #@commands.has_permissions(administrator=True)
-    #async def logout(self, ctx):
-        #await ctx.send('Shutting down')
-        #print(f"{ctx.author.id}/{ctx.author.name} has used command logout")
-
-        #channel = self.bot.get_channel(829978424126210079)
-        #await channel.send(f"{ctx.author.name} has used command logout")
-
-        #await self.bot.logout()
 
     @commands.command(pass_context=True)
     @commands.has_permissions(administrator=True)
@@ -57,9 +45,10 @@ class AdminCommands(commands.Cog):
             return
 
         await member.ban(reason = reason)
-        await ctx.send(str(member.mention) + " has been banned")
 
-        
+        embed=discord.Embed(title=f":white_check_mark: " + str(member.name) +  " has been banned", color=0xe74c3c)
+
+        await ctx.send(embed=embed)
 
         print(f"{ctx.author.id}/{ctx.author.name} has used command ban (person being banned {member.id}/{member.name}. from the server {ctx.message.guild.name})")
 
@@ -75,7 +64,9 @@ class AdminCommands(commands.Cog):
             return
 
         await member.kick()
-        await ctx.send(str(member.mention) + " has been kicked")
+        embed=discord.Embed(title=f":white_check_mark: " + str(member.name) +  " has been kicked", color=0xe74c3c)
+
+        await ctx.send(embed=embed)
 
         print(f"{ctx.author.id}/{ctx.author.name} has used command kick (person being kicked {member.id}/{member.name}. from the server {ctx.message.guild.name})")
 

@@ -109,13 +109,6 @@ class Commands(commands.Cog):
 
         await ctx.send(embed=embed)
 
-        print(f"{ctx.author.id}/{ctx.author.name} has used command minecraft")
-
-        channel = self.bot.get_channel(829978424126210079)
-        await channel.send(f"{ctx.author.name} has used command minecraft")
-
-
-
         
 
     @commands.command(aliases=['flip', 'coin'])

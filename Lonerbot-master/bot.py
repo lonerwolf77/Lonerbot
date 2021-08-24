@@ -8,7 +8,7 @@ import os
 
 from discord.ext import commands
 
-bot = commands.Bot(command_prefix=commands.when_mentioned_or("/")
+bot = commands.Bot(command_prefix=commands.when_mentioned_or("*")
                 ,case_insensative=True
                 ,intents=discord.Intents().all())
 
@@ -29,11 +29,12 @@ os.system('cls')
 @bot.event
 async def on_ready():
     print("Logged in as: " + str(bot.user.name) + " : " + str(bot.user.id) + "\n"
-    "My current prefix is: " + "/" + "\n------------------------------")
+    "My current prefix is: " + "*" + "\n------------------------------")
     print("Running on discord version: " + discord.__version__)
 
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.playing,
-        name="/help"))
+        name="OwO"))
+
 
     #<-----------LOAD COGS---------->#
 
@@ -70,5 +71,20 @@ async def invite(ctx):
 @bot.command()
 async def bot_invite(ctx):
     await ctx.send("https://discord.com/api/oauth2/authorize?client_id=720591908963090443&permissions=8&scope=bot")
+
+
+@bot.event
+async def on_guild_join(guild):
+
+    guild.id = guild.id
+    guild.name = guild.name
+
+    Gjoin = (f"{bot.user.name} has joined {guild.id}/{guild.name}") 
+    with open("l1.txt", 'a') as myfile:
+        myfile.write(f'{Gjoin}, ')
+        
+
+
+
 
 bot.run(token)
