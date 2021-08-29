@@ -6,6 +6,8 @@ import random
 import sys
 import os
 
+import pyautogui
+
 from discord.ext import commands
 
 bot = commands.Bot(command_prefix=commands.when_mentioned_or("*")
@@ -28,9 +30,13 @@ os.system('cls')
 
 @bot.event
 async def on_ready():
+    date = input("Enter date: ")
     print("Logged in as: " + str(bot.user.name) + " : " + str(bot.user.id) + "\n"
     "My current prefix is: " + "*" + "\n------------------------------")
-    print("Running on discord version: " + discord.__version__)
+    print("Running on discord version: " + discord.__version__, "Date is " + date)
+
+    with open("l1.txt", 'a') as myfile:
+        myfile.write(f'{date}, ')
 
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.playing,
         name="OwO"))
@@ -68,6 +74,9 @@ async def invite(ctx):
     channel = bot.get_channel(829978424126210079)
     await channel.send(f"{ctx.author.name} has used command invite")
 
+    with open("l1.txt", 'a') as myfile:
+        myfile.write(f"{ctx.author.name} has used command invite")
+
 @bot.command()
 async def bot_invite(ctx):
     await ctx.send("https://discord.com/api/oauth2/authorize?client_id=720591908963090443&permissions=8&scope=bot")
@@ -83,8 +92,6 @@ async def on_guild_join(guild):
     with open("l1.txt", 'a') as myfile:
         myfile.write(f'{Gjoin}, ')
         
-
-
 
 
 bot.run(token)

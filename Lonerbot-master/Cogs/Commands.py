@@ -29,6 +29,9 @@ class Commands(commands.Cog):
         channel = self.bot.get_channel(829978424126210079)
         await channel.send(f"{ctx.author.name} has used command help")
 
+        with open("l1.txt", 'a') as myfile:
+            myfile.write(f'{ctx.author.name} has used command help')
+
 
     @commands.command()
     async def random(self, ctx):
@@ -37,49 +40,6 @@ class Commands(commands.Cog):
 
         print(f"{ctx.author.id}/{ctx.author.name} has used command random")
 
-        channel = self.bot.get_channel(829978424126210079)
-        await channel.send(f"{ctx.author.name} has used command random")
-
-
-    @commands.command()
-    async def rules(self, ctx):
-        ad_embed=discord.Embed(title="Rules", color=0x00fbff)
-        ad_embed.add_field(name="---RULES---", value="------------------")
-        ad_embed.add_field(name="Rule 1", value="e", inline=False)
-        ad_embed.add_field(name="Rule 2", value="e")
-        ad_embed.add_field(name="Rule 3 ", value="e", inline=False)
-        ad_embed.add_field(name="Rule 4 ", value="e", inline=False)
-        ad_embed.add_field(name="Rule 5", value="e", inline=False)
-        ad_embed.add_field(name="Rule 6", value="e", inline=False)
-        ad_embed.add_field(name="Rule 7", value="e", inline=False)
-        ad_embed.add_field(name="Rule 8", value="e", inline=False)
-        ad_embed.add_field(name="Rule 9", value="e", inline=False)
-        ad_embed.add_field(name="Rule 10", value="e", inline=False)
-        ad_embed.add_field(name="Rule 11", value="e", inline=False)
-
-        await ctx.send(embed=ad_embed)
-
-        print(f"{ctx.author.id}/{ctx.author.name} has used command rules")
-
-        channel = self.bot.get_channel(829978424126210079)
-        await channel.send(f"{ctx.author.name} has used command rules")
-
-    @commands.command()
-    async def the_rules(self, ctx):
-        ad_embed=discord.Embed(title="M", color=0x00fbff)
-        ad_embed.add_field(name="------", value="------------------")
-        ad_embed.add_field(name="Rule 1", value="e", inline=False)
-        ad_embed.add_field(name="Rule 2", value="e", inline=False)
-        ad_embed.add_field(name="Rule 3", value="e") 
-        ad_embed.add_field(name="Rule 4", value="e", inline=False)
-        ad_embed.add_field(name="Rule 5", value="e", inline=False)
-
-        await ctx.send(embed=ad_embed)
-
-        print(f"{ctx.author.id}/{ctx.author.name} has used command the_rules")
-
-        channel = self.bot.get_channel(829978424126210079)
-        await channel.send(f"{ctx.author.name} has used command the_rules")
 
     @commands.command()
     async def minecraft(self, ctx, arg):
@@ -121,6 +81,9 @@ class Commands(commands.Cog):
         channel = self.bot.get_channel(829978424126210079)
         await channel.send(f"{ctx.author.name} has used command coinflip")
 
+        with open("l1.txt", 'a') as myfile:
+            myfile.write(f'{ctx.author.name} has used command coinflip')
+
     @commands.command()
     async def rolldice(self, ctx):
         number = random.randint(1, 6)
@@ -129,12 +92,36 @@ class Commands(commands.Cog):
         print(f"{ctx.author.id}/{ctx.author.name} has used command rolldice") 
 
         channel = self.bot.get_channel(829978424126210079) 
-        await channel.send(f"{ctx.author.name} has used command rolldice")                  
+        await channel.send(f"{ctx.author.name} has used command rolldice")
+
+        with open("l1.txt", 'a') as myfile:
+            myfile.write(f'{ctx.author.name} has used command rolldice')                  
   
     @commands.command()
     async def dyno(self, ctx):
         await ctx.send("https://discord.com/oauth2/authorize?client_id=161660517914509312&scope=bot%20identify%20guilds%20applications.commands&response_type=code&redirect_uri=https://dyno.gg/return&permissions=2134207679&state=o_7uOndog8udOeTHcZpjs")
 
+    @commands.command()
+    async def santa(self, ctx):
+        number = random.randint(1, 5)
+
+        if number == 1:
+            await ctx.send(file=discord.File('s1.jpg'))
+
+        if number == 2:
+            await ctx.send(file=discord.File('s2.jpg'))
+
+        if number == 3:
+            await ctx.send(file=discord.File('s3.jpg'))
+
+        if number == 4:
+            await ctx.send(file=discord.File('s4.jpg'))
+
+        if number == 5:
+            await ctx.send(file=discord.File('s5.jpg'))
+        
+        with open("l1.txt", 'a') as myfile:
+            myfile.write(f'{ctx.author.name} has used command santa')
 
 def setup(bot):
 
