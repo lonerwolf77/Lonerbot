@@ -1,4 +1,4 @@
-#i swear this bot is fucking braindead
+#smh no bad words in my bot.py file
 
 import discord
 import time
