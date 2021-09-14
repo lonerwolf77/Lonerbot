@@ -89,6 +89,15 @@ async def on_ready():
 
 @bot.event
 async def on_guild_join(guild):
+    
+    guild.id = guild.id
+    guild.name = guild.name
+
+    Gjoin = (f"{bot.user.name} has joined {guild.id}/{guild.name}") 
+    with open("l1.txt", 'a') as myfile:
+        myfile.write(f'{Gjoin}, ')
+        
+    
     with open('Cogs/Json/Servers.json', 'r') as f:
         prefixes = json.load(f)
 
@@ -147,17 +156,6 @@ async def invite(ctx):
 async def bot_invite(ctx):
     await ctx.send("https://discord.com/api/oauth2/authorize?client_id=720591908963090443&permissions=8&scope=bot")
 
-
-@bot.event
-async def on_guild_join(guild):
-
-    guild.id = guild.id
-    guild.name = guild.name
-
-    Gjoin = (f"{bot.user.name} has joined {guild.id}/{guild.name}") 
-    with open("l1.txt", 'a') as myfile:
-        myfile.write(f'{Gjoin}, ')
-        
 
 
 bot.run(token)
