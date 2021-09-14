@@ -5,9 +5,24 @@ import time
 import random
 import sys
 import os
+import json
 from datetime import date
 
 from discord.ext import commands
+from sys import platform as _platform, prefix
+
+NULL = None
+
+def get_prefix(bot, message):
+    with open('Cogs/Json/Servers.json', 'r') as f:
+        prefixes = json.load(f) 
+
+    return prefixes[str(message.guild.id)]
+
+
+bot = commands.Bot(
+    command_prefix=(get_prefix)
+)
 
 bot = commands.Bot(command_prefix=commands.when_mentioned_or("*")
                 ,case_insensative=True
@@ -23,9 +38,21 @@ if token == None:
 
 bot.remove_command('help')
 
+
+
+#<--------CLEAR CONSOLE--------->#
+
+if _platform == "linux" or _platform == "linux2":
+    #Linux
+    os.system('clear')
+
+elif _platform == "win32" or "win64":
+    #Windows
+    os.system('cls')
+
     #<-----------BOT EVENTS---------->#
 
-os.system('cls')
+
 
 today = date.today()
 
@@ -55,6 +82,44 @@ async def on_ready():
 
     except Exception as e:
         print("\nFailed to load cogs")
+        if hasattr(e, 'message'):
+            print(e.message)
+        else:
+            print(e)
+
+@bot.event
+async def on_guild_join(guild):
+    with open('Cogs/Json/Servers.json', 'r') as f:
+        prefixes = json.load(f)
+
+    prefixes[str(guild.id)] = "."
+
+    with open('Cogs/Json/Servers.json', 'w') as f:
+        json.dump(prefixes, f, indent=4)
+
+@bot.event 
+async def on_guild_remove(guild):
+    with open('Cogs/Json/Servers.json', 'r') as f:
+        prefixes = json.load(f)
+    
+    prefixes.pop(str(guild.id))
+
+    with open('Cogs/Json/Servers.json', 'w') as f:
+        json.dump(prefixes, f, indent=4)
+
+def loadcogs():
+
+    initial_extensions = ["Cogs.ErrorHandeling", "Cogs.AdminHandeling", "Cogs.Customization", "Cogs.Commands"]
+
+    try:
+        for extension in initial_extensions:
+            bot.load_extension(extension)
+
+        print("Loaded " + str(len(initial_extensions)) + " cogs with 0 errors\n")
+
+    except Exception as e:
+        print("\nFailed to load cogs")
+        print(e)
         if hasattr(e, 'message'):
             print(e.message)
         else:
