@@ -11,6 +11,8 @@ from datetime import date
 from discord.ext import commands
 from sys import platform as _platform, prefix
 
+
+
 NULL = None
 
 def get_prefix(bot, message):
@@ -24,9 +26,7 @@ bot = commands.Bot(
     command_prefix=(get_prefix)
 )
 
-bot = commands.Bot(command_prefix=commands.when_mentioned_or("*")
-                ,case_insensative=True
-                ,intents=discord.Intents().all())
+
 
 token = open("token.txt", "r").readline()
 
@@ -60,7 +60,7 @@ today = date.today()
 async def on_ready():
     os.system('cls')
     print("Logged in as: " + str(bot.user.name) + " : " + str(bot.user.id) + "\n"
-    "My current prefix is: " + "*" + "\n------------------------------")
+    "\n------------------------------")
     print("Running on discord version: " + discord.__version__, "Today's date:", today)
 
     with open("l1.txt", 'a') as myfile:
@@ -69,10 +69,9 @@ async def on_ready():
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.playing,
         name="Creator: lonerwolf"))
 
-
     #<-----------LOAD COGS---------->#
-    
-    initial_extensions = ["Cogs.ErrorHandeling", "Cogs.AdminHandeling", "Cogs.Commands"]
+
+    initial_extensions = ["Cogs.ErrorHandeling", "Cogs.AdminHandeling", "Cogs.Customization", "Cogs.Commands"]
 
     try:
         for extension in initial_extensions:
@@ -89,15 +88,6 @@ async def on_ready():
 
 @bot.event
 async def on_guild_join(guild):
-    
-    guild.id = guild.id
-    guild.name = guild.name
-
-    Gjoin = (f"{bot.user.name} has joined {guild.id}/{guild.name}") 
-    with open("l1.txt", 'a') as myfile:
-        myfile.write(f'{Gjoin}, ')
-        
-    
     with open('Cogs/Json/Servers.json', 'r') as f:
         prefixes = json.load(f)
 
@@ -115,24 +105,6 @@ async def on_guild_remove(guild):
 
     with open('Cogs/Json/Servers.json', 'w') as f:
         json.dump(prefixes, f, indent=4)
-
-def loadcogs():
-
-    initial_extensions = ["Cogs.ErrorHandeling", "Cogs.AdminHandeling", "Cogs.Customization", "Cogs.Commands"]
-
-    try:
-        for extension in initial_extensions:
-            bot.load_extension(extension)
-
-        print("Loaded " + str(len(initial_extensions)) + " cogs with 0 errors\n")
-
-    except Exception as e:
-        print("\nFailed to load cogs")
-        print(e)
-        if hasattr(e, 'message'):
-            print(e.message)
-        else:
-            print(e)
 
     #<-----------BOT COMMANDS---------->#
 
@@ -155,7 +127,6 @@ async def invite(ctx):
 @bot.command()
 async def bot_invite(ctx):
     await ctx.send("https://discord.com/api/oauth2/authorize?client_id=720591908963090443&permissions=8&scope=bot")
-
-
+        
 
 bot.run(token)
