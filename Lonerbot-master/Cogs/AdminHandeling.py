@@ -12,10 +12,11 @@ class AdminCommands(commands.Cog):
     async def admin_help(self, ctx):
         ad_embed=discord.Embed(title="Admin Help", color=0xff0800)
         ad_embed.add_field(name="---ADMIN COMMANDS---", value="--------")
-        ad_embed.add_field(name="/echo", value="repeats your message", inline=False)
-        ad_embed.add_field(name="/kick", value="You must @ a member to kick them", inline=False)
-        ad_embed.add_field(name="/ban", value="You must @ a member to ban them", inline=False)
-        ad_embed.add_field(name="/clear", value="Add the amount after a space(default amount 50)", inline=False)
+        ad_embed.add_field(name="echo", value="repeats your message", inline=False)
+        ad_embed.add_field(name="kick", value="You must @ a member to kick them", inline=False)
+        ad_embed.add_field(name="ban", value="You must @ a member to ban them", inline=False)
+        ad_embed.add_field(name="clear", value="Add the amount after a space(default amount 50)", inline=False)
+        ad_embed.add_field(name="change_prefix", value="Changes the current prefix", inline=False)
         await ctx.send(embed=ad_embed)
 
         channel = self.bot.get_channel(829978424126210079)

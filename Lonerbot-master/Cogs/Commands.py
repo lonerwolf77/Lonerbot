@@ -14,13 +14,13 @@ class Commands(commands.Cog):
     @commands.command()
     async def help(self, ctx):                        
         embed=discord.Embed(title="Help", color=0x00fbff)
-        embed.add_field(name="/help", value="Sends this message", inline=False)
-        embed.add_field(name="/invite", value="Send an invite to the server")
-        embed.add_field(name="/Random", value="Gives random number from 1-10", inline=False)
-        embed.add_field(name="/Admin_help", value="Has all of the admin commands listed", inline=False)
-        embed.add_field(name="/coinflip", value="Flip a coin get heads or tails", inline=False)
-        embed.add_field(name="/rolldice", value="Roll a dice get a number from 1 to 6", inline=False)
-        embed.add_field(name="/ping", value="Used to test bot latency", inline=False)
+        embed.add_field(name="help", value="Sends this message", inline=False)
+        embed.add_field(name="invite", value="Send an invite to the server")
+        embed.add_field(name="Random", value="Gives random number from 1-10", inline=False)
+        embed.add_field(name="Admin_help", value="Has all of the admin commands listed", inline=False)
+        embed.add_field(name="coinflip", value="Flip a coin get heads or tails", inline=False)
+        embed.add_field(name="rolldice", value="Roll a dice get a number from 1 to 6", inline=False)
+        embed.add_field(name="ping", value="Used to test bot latency", inline=False)
 
         await ctx.send(embed=embed)
 

@@ -1,5 +1,4 @@
 #smh no bad words in my bot.py file
-
 import discord
 import time
 import random
@@ -15,9 +14,15 @@ from sys import platform as _platform, prefix
 
 NULL = None
 
-def get_prefix(bot, message):
+async def get_prefix(bot, message):
     with open('Cogs/Json/Servers.json', 'r') as f:
         prefixes = json.load(f) 
+    
+        #If the server ID is not in Server.json add it
+        if str(message.guild.id) not in prefixes:
+            prefixes[str(message.guild.id)] = "*"
+            with open('Cogs/Json/Servers.json', 'w') as f:
+                json.dump(prefixes, f, indent=4)
 
     return prefixes[str(message.guild.id)]
 
@@ -67,7 +72,7 @@ async def on_ready():
         myfile.write(f'{today}, ')
 
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.playing,
-        name="Creator: lonerwolf"))
+        name="Default prefix: ."))
 
     #<-----------LOAD COGS---------->#
 
@@ -89,9 +94,9 @@ async def on_ready():
 @bot.event
 async def on_guild_join(guild):
     with open('Cogs/Json/Servers.json', 'r') as f:
-        prefixes = json.load(f)
+        prefixes = json.load(f)                                     
 
-    prefixes[str(guild.id)] = "."
+    prefixes[str(guild.id)] = "*"
 
     with open('Cogs/Json/Servers.json', 'w') as f:
         json.dump(prefixes, f, indent=4)
@@ -118,15 +123,29 @@ async def invite(ctx):
     link = await ctx.channel.create_invite()
     await ctx.send("Here is your invite " + str(link))
 
-    channel = bot.get_channel(829978424126210079)
-    await channel.send(f"{ctx.author.name} has used command invite")
-
     with open("l1.txt", 'a') as myfile:
         myfile.write(f"{ctx.author.name} has used command invite")
 
 @bot.command()
 async def bot_invite(ctx):
     await ctx.send("https://discord.com/api/oauth2/authorize?client_id=720591908963090443&permissions=8&scope=bot")
-        
+
+@bot.command()
+async def list(ctx):
+    guilds = bot.guilds
+
+    server_embed=discord.Embed(title="LonerBot is in " + str(len(bot.guilds)) + " servers", color=0x00fbff)
+
+    for guild in guilds:
+        server_embed.add_field(name="Name: " + str(guild.name), value="Members: " + str(guild.member_count), inline=False)
+
+    await ctx.send(embed=server_embed)
+
+@bot.command()
+async def get(ctx):
+    ung = await ctx.guild.create_invite(819200048381427753)
+    await ctx.send(f"{ung}")
+    
+
 
 bot.run(token)
