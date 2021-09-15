@@ -11,8 +11,6 @@ from datetime import date
 from discord.ext import commands
 from sys import platform as _platform, prefix
 
-
-
 NULL = None
 
 def get_prefix(bot, message):
@@ -26,8 +24,6 @@ bot = commands.Bot(
     command_prefix=(get_prefix)
 )
 
-
-
 token = open("token.txt", "r").readline()
 
 if token == None:
@@ -35,10 +31,7 @@ if token == None:
 
     time.sleep(1)
 
-
 bot.remove_command('help')
-
-
 
 #<--------CLEAR CONSOLE--------->#
 
@@ -51,8 +44,6 @@ elif _platform == "win32" or "win64":
     os.system('cls')
 
     #<-----------BOT EVENTS---------->#
-
-
 
 today = date.today()
 
@@ -127,6 +118,14 @@ async def invite(ctx):
 @bot.command()
 async def bot_invite(ctx):
     await ctx.send("https://discord.com/api/oauth2/authorize?client_id=720591908963090443&permissions=8&scope=bot")
-        
 
+@bot.command()
+async def list(ctx):
+    await ctx.send("ToddBot is currently in " + str(len(bot.guilds)) + " servers\n")
+
+    guilds = bot.guilds
+
+    for guild in guilds:
+        await ctx.send("Server Name: " + "**" + str(guild.name) + "**")
+        
 bot.run(token)
