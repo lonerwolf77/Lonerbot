@@ -141,11 +141,5 @@ async def list(ctx):
 
     await ctx.send(embed=server_embed)
 
-@bot.command()
-async def get(ctx):
-    ung = await ctx.guild.create_invite(819200048381427753)
-    await ctx.send(f"{ung}")
-    
-
 
 bot.run(token)
