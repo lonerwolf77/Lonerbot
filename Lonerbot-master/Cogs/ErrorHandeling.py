@@ -20,19 +20,19 @@ class ErrorHandeling(commands.Cog):
                 pass
 
         elif isinstance(error, commands.BadArgument):
-             await ctx.send("```ERROR: Bad Argument!```")
+             await ctx.send("```" + str(error) + "```")
 
         elif isinstance(error, commands.CommandNotFound):
-            await ctx.send("```ERROR: Command not found!```")
+            await ctx.send("```" + str(error) + "```")
 
         elif isinstance(error, commands.MissingPermissions):
-            await ctx.send("```ERROR: Missing Permissions!```")
+            await ctx.send("```" + str(error) + "```")
 
         elif isinstance(error, commands.CommandInvokeError):
-             await ctx.send("```ERROR: Command Invoke Error!```")
+             await ctx.send("```" + str(error) + "```")
 
         elif isinstance(error, commands.MissingRequiredArgument):
-             await ctx.send("```ERROR: Missing Required Argument!```")
+             await ctx.send("```" + str(error) + "```")
 
         else:
             await ctx.send("```Unkown Error!```")

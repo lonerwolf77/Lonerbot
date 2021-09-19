@@ -69,10 +69,10 @@ async def on_ready():
     print("Running on discord version: " + discord.__version__, "Today's date:", today)
 
     with open("l1.txt", 'a') as myfile:
-        myfile.write(f'{today}, ')
+        myfile.write(f' {today}, ')
 
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.playing,
-        name="Default prefix: ."))
+        name=f"Default prefix: *"))
 
     #<-----------LOAD COGS---------->#
 
@@ -141,5 +141,15 @@ async def list(ctx):
 
     await ctx.send(embed=server_embed)
 
+@bot.command(pass_context=True)
+async def logout(ctx):
+
+    if ctx.author.id == 358617608377073665:
+        await ctx.send("**Loging off**")
+        await bot.logout()
+
+    
+    else:
+        await ctx.send("Nice try ;)")
 
 bot.run(token)
