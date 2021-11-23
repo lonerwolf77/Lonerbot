@@ -22,7 +22,7 @@ class Customization(commands.Cog):
         await ctx.send("**Prefix Changed To:** " + prefix)
 
         guild = ctx.guild
-        await guild.me.edit(nick="LonerBot " + '[' + prefix + ']')   
+        await guild.me.edit(nick= self.bot.user.name + '[' + prefix + ']')   
 
 def setup(bot):
     bot.add_cog(Customization(bot))

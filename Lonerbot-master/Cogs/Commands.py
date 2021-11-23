@@ -1,36 +1,83 @@
 import discord
 from discord.ext import commands
+import datetime 
+import time
+from datetime import date
 
 import random
 
+import os
 import requests
+
 
 class Commands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.Cog.listener()
+    async def on_ready(self):
+        global StartTime
+        StartTime = time.time()
+    
+
+    @commands.command()
+    async def help(self, ctx):
+        if ctx.message.author.guild_permissions.administrator:
+            embed=discord.Embed(title="Help", color=0x546e7a)
+            embed.add_field(name="help", value="Sends this message", inline=False)
+            embed.add_field(name="invite", value="Send an invite to the server")
+            embed.add_field(name="Random", value="Gives random number from 1-10", inline=False)
+            embed.add_field(name="coinflip", value="Flip a coin get heads or tails", inline=False)
+            embed.add_field(name="ping", value="Used to test bot latency", inline=False)
+            embed.add_field(name="tag", value="Get pigdom exlusive commands", inline=False)
+
+            await ctx.send(embed=embed)
+
+
+            embed=discord.Embed(title="---------------------", color=0xff0800)
+            embed.add_field(name="admin_help", value="Gives list of admin comands", inline=True)
+
+            await ctx.send(embed=embed)
+
+
+
+        else:
+            embed=discord.Embed(title="Help", color=0x546e7a)
+            embed.add_field(name="help", value="Sends this message", inline=False)
+            embed.add_field(name="invite", value="Send an invite to the server")
+            embed.add_field(name="random", value="Gives random number from 1-10", inline=False)
+            embed.add_field(name="coinflip", value="Flip a coin get heads or tails", inline=False)
+            embed.add_field(name="ping", value="Used to test bot latency", inline=False)
+            embed.add_field(name="tag", value="Get pigdom exlusive commands", inline=False)
+
+
+            await ctx.send(embed=embed)
+
+    @commands.command()
+    async def support(self, ctx):
+        await ctx.send('Get support at <#869581433885323275>')
 
 
     @commands.command()
-    async def help(self, ctx):                        
-        embed=discord.Embed(title="Help", color=0x00fbff)
-        embed.add_field(name="help", value="Sends this message", inline=False)
-        embed.add_field(name="invite", value="Send an invite to the server")
-        embed.add_field(name="Random", value="Gives random number from 1-10", inline=False)
-        embed.add_field(name="Admin_help", value="Has all of the admin commands listed", inline=False)
-        embed.add_field(name="coinflip", value="Flip a coin get heads or tails", inline=False)
-        embed.add_field(name="rolldice", value="Roll a dice get a number from 1 to 6", inline=False)
-        embed.add_field(name="ping", value="Used to test bot latency", inline=False)
+    async def tag(self, ctx):
+        embed=discord.Embed(title="PigdomSMP-exclusive commands", color=0)
+        embed.add_field(name="support", value="Instructions for community support", inline=False)
+        embed.add_field(name="apply", value="Apply here")
+        embed.add_field(name="meta", value="Join the meta discord", inline=False)
+        embed.add_field(name="Server", value="Get server-related info", inline=False)
 
         await ctx.send(embed=embed)
+        
 
-        print(f"{ctx.author.id}/{ctx.author.name} has used command help")
+    @commands.command()
+    async def boost(self, ctx):
+        embed=discord.Embed(title="Boost the discord server!")
+        embed.add_field(name="Access to #boosters", value="a private text channel for boosters")
+        embed.add_field(name="Access to #boost-cmds", value="a secret command channel")
+        embed.add_field(name="Access to #memes", value="a private memes channel")
+        embed.add_field(name="Last but not least", value="you also get a vc")
 
-        channel = self.bot.get_channel(829978424126210079)
-        await channel.send(f"{ctx.author.name} has used command help")
-
-        with open("l1.txt", 'a') as myfile:
-            myfile.write(f'{ctx.author.name} has used command help')
+        await ctx.send(embed=embed)
 
 
     @commands.command()
@@ -38,15 +85,13 @@ class Commands(commands.Cog):
         number = random.randint(1, 10)
         await ctx.send(number)
 
-        print(f"{ctx.author.id}/{ctx.author.name} has used command random")
-
 
     @commands.command()
-    async def minecraft(self, ctx, arg):
+    async def server(self, ctx):
         try:
-            r = requests.get("http://api.minehut.com/server/"+ arg +"?byName=true")
+            arg = 'PigdomSMP'
+            r = requests.get("http://api.minehut.com/server/"+ arg +('?byName=true'))
             json_data = r.json()
-            print(json_data)
             description = json_data["server"]["motd"]
             online = str(json_data["server"]["online"])
             playerCount = str(json_data["server"]["playerCount"])
@@ -60,69 +105,74 @@ class Commands(commands.Cog):
 
 
         embed = discord.Embed(
-            title=arg + " info",
+            title="PigdomSMP" + " info",
             description="Description: " + description + "\nonline: " + online + "\nPlayers: " + playerCount + "\nmaxPlayers: " + maxPlayers + "\nplatform: " + platform,
         
             color=discord.Color.dark_green()
         )
-        embed.set_thumbnail(url="https://static.wikia.nocookie.net/minecraft_gamepedia/images/9/93/Grass_Block_JE7_BE6.png/revision/latest?cb=20200830143209")
+        embed.set_thumbnail(url="https://cdn.discordapp.com/icons/817046907519500328/5db8b56a99513420b2825d07868bce57.webp?size=1024")
 
         await ctx.send(embed=embed)
-
+        
         
 
     @commands.command(aliases=['flip', 'coin'])
     async def coinflip(self, ctx):
         coinsides = ['Heads', 'Tails']
         await ctx.send(f"**{ctx.author.name}** flipped a coin and got **{random.choice(coinsides)}**!")
-
-        print(f"{ctx.author.id}/{ctx.author.name} has used command coinflip") 
-
-        channel = self.bot.get_channel(829978424126210079)
-        await channel.send(f"{ctx.author.name} has used command coinflip")
-
-        with open("l1.txt", 'a') as myfile:
-            myfile.write(f'{ctx.author.name} has used command coinflip')
-
-    @commands.command()
-    async def rolldice(self, ctx):
-        number = random.randint(1, 6)
-        await ctx.send(F"You rolled a {number}")
-
-        print(f"{ctx.author.id}/{ctx.author.name} has used command rolldice") 
-
-        channel = self.bot.get_channel(829978424126210079) 
-        await channel.send(f"{ctx.author.name} has used command rolldice")
-
-        with open("l1.txt", 'a') as myfile:
-            myfile.write(f'{ctx.author.name} has used command rolldice')                  
+      
   
     @commands.command()
     async def dyno(self, ctx):
         await ctx.send("https://discord.com/oauth2/authorize?client_id=161660517914509312&scope=bot%20identify%20guilds%20applications.commands&response_type=code&redirect_uri=https://dyno.gg/return&permissions=2134207679&state=o_7uOndog8udOeTHcZpjs")
 
+
     @commands.command()
-    async def santa(self, ctx):
-        number = random.randint(1, 5)
+    async def apply (self, ctx):
+        embed=discord.Embed(title="Apply", color=0x00fbff)
+        embed.add_field(name="Apply for mod:", value="https://forms.gle/sqMwMSJeeZLM7H1E9", inline=False)
+        embed.add_field(name="Apply for helper:", value="Currently unable to apply")
 
-        if number == 1:
-            await ctx.send(file=discord.File('s1.jpg'))
-
-        if number == 2:
-            await ctx.send(file=discord.File('s2.jpg'))
-
-        if number == 3:
-            await ctx.send(file=discord.File('s3.jpg'))
-
-        if number == 4:
-            await ctx.send(file=discord.File('s4.jpg'))
-
-        if number == 5:
-            await ctx.send(file=discord.File('s5.jpg'))
+        await ctx.send(embed=embed)
         
-        with open("l1.txt", 'a') as myfile:
-            myfile.write(f'{ctx.author.name} has used command santa')
 
+
+    @commands.command() 
+    async def meta(self, ctx):
+        await ctx.send('Join the meta server: https://discord.gg/vuXVfKN93s')
+
+
+    @commands.command()
+    async def ping(self, ctx):
+        ping = round(self.bot.latency, 3)
+
+        if self.bot.latency < 0.5:
+            bot_status = ':ok_hand:'
+            color = 0x2ecc71
+
+        elif self.bot.latency < 1:
+            bot_status = ':sunglasses:' 
+            color = 0xf1c40f
+
+        else:
+            bot_status = ':french_bread:'
+            color = 0xe74c3c
+
+
+        embed=discord.Embed(title=str(self.bot.user.name) + ' Status', color=color)
+        embed.set_thumbnail(url=self.bot.user.avatar_url)
+
+        embed.add_field(name="Ping:", value=str(ping) + bot_status)
+
+        uptime = str(datetime.timedelta(seconds=int(round(time.time()- StartTime))))
+        embed.add_field(name="Uptime: ", value=str(uptime), inline=False)
+
+        embed.add_field(name="Version: ", value=discord.__version__+ '  ' +["version"], inline=False)  
+
+        await ctx.send(embed=embed)
+
+
+        
 def setup(bot):
 
     bot.add_cog(Commands(bot))

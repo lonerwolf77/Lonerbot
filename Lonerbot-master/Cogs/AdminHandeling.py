@@ -15,13 +15,55 @@ class AdminCommands(commands.Cog):
         ad_embed.add_field(name="echo", value="repeats your message", inline=False)
         ad_embed.add_field(name="kick", value="You must @ a member to kick them", inline=False)
         ad_embed.add_field(name="ban", value="You must @ a member to ban them", inline=False)
-        ad_embed.add_field(name="clear", value="Add the amount after a space(default amount 50)", inline=False)
+        ad_embed.add_field(name="purge", value="Add the amount after a space(default amount 50)")
         ad_embed.add_field(name="change_prefix", value="Changes the current prefix", inline=False)
         ad_embed.add_field(name="leave", value="Makes the bot leave the server", inline=False)
+        ad_embed.add_field(name="lock", value="Lock a channel", inline=False)
+        ad_embed.add_field(name="unlock", value="Unlock a channel", inline=False)
+        
         await ctx.send(embed=ad_embed)
 
-        channel = self.bot.get_channel(829978424126210079)
-        await channel.send(f"{ctx.author.name} has used command admin_help")
+    @commands.command()
+    @commands.has_permissions(manage_channels = True)
+    async def lock(self, ctx):
+        await ctx.channel.set_permissions(ctx.guild.default_role, send_messages = False)
+        embed=discord.Embed(title=f":white_check_mark: " + "***Channel has been locked.***", color=0xe74c3c)
+
+        await ctx.send(embed=embed)
+
+
+
+    @commands.command()
+    @commands.has_permissions(manage_channels = True)
+    async def unlock(self, ctx):
+        await ctx.channel.set_permissions(ctx.guild.default_role, send_messages = True)
+        embed=discord.Embed(title=f":white_check_mark: " + "***Channel has been unlocked.***", color=0xe74c3c)
+
+        await ctx.send(embed=embed)
+
+        
+    @commands.command()
+    async def data(self, ctx):
+        embed = discord.Embed(title="Server Data", color=0xFF5733)
+        embed.set_thumbnail(url=ctx.guild.icon_url)
+        embed.add_field(name="Server Name", value=ctx.message.guild.name, inline=False)
+        embed.add_field(name="Amount Of Members", value=ctx.guild.member_count, inline=False)
+        embed.add_field(name="Amount Of Roles", value=len(ctx.guild.roles), inline=True)
+
+        text_channel_list = []
+        for channel in ctx.guild.text_channels:
+            text_channel_list.append(channel)
+
+        voice_channel_list = []
+        for channel in ctx.guild.voice_channels:
+            voice_channel_list.append(channel)
+
+        embed.add_field(name="Amount Of Text Channels", value=len(text_channel_list), inline=False)
+        embed.add_field(name="Amount Of Voice Channels", value=len(voice_channel_list), inline=False)
+        await ctx.send(embed=embed)
+
+
+
 
     @commands.command()
     @commands.has_permissions(administrator=True)
@@ -31,9 +73,9 @@ class AdminCommands(commands.Cog):
         await ctx.message.delete()
         await ctx.send(message)
 
-        channel = self.bot.get_channel(829978424126210079)
-        await channel.send(f"{ctx.author.name} has used command echo (the message was {message})")
 
+
+        
 
     @commands.command(pass_context=True)
     @commands.has_permissions(administrator=True)
@@ -52,13 +94,8 @@ class AdminCommands(commands.Cog):
 
         await ctx.send(embed=embed)
 
-        print(f"{ctx.author.id}/{ctx.author.name} has used command ban (person being banned {member.id}/{member.name}. from the server {ctx.message.guild.name})")
 
-        channel = self.bot.get_channel(829978424126210079)
-        await channel.send(f"{ctx.author.name} has used command ban (person being banned {member.id}/{member.name}. from the server {ctx.message.guild.name})")
-
-        with open("l1.txt", 'a') as myfile:
-            myfile.write(f'{ctx.author.name} has used command ban (person being banned {member.id}/{member.name}. from the server {ctx.message.guild.name})')
+        
 
     @commands.command(pass_context=True)
     @commands.has_permissions(administrator=True)
@@ -73,33 +110,20 @@ class AdminCommands(commands.Cog):
 
         await ctx.send(embed=embed)
 
-        print(f"{ctx.author.id}/{ctx.author.name} has used command kick (person being kicked {member.id}/{member.name}. from the server {ctx.message.guild.name})")
-
-        channel = self.bot.get_channel(829978424126210079)
-        await channel.send(f"{ctx.author.name} has used command kick (person being kicked {member.id}/{member.name}. from the server {ctx.message.guild.name})")
-
-        with open("l1.txt", 'a') as myfile:
-            myfile.write(f'{ctx.author.name} has used command kick (person being kicked {member.id}/{member.name}. from the server {ctx.message.guild.name})')
+        
 
     @commands.command(pass_context=True)
     @commands.has_permissions(administrator=True)
-    async def clear(self, ctx, ammount=50):
+    async def purge(self, ctx, ammount=50):
         await ctx.channel.purge(limit=ammount)
+        
 
-        print(f"{ctx.author.id}/{ctx.author.name} has used command clear (ammount {ammount})") 
-
-        channel = self.bot.get_channel(829978424126210079)
-        await channel.send(f"{ctx.author.name} has used command clear (ammount {ammount})")
-
-        with open("l1.txt", 'a') as myfile:
-            myfile.write(f'{ctx.author.name} has used command clear (ammount {ammount}')
-
+        
 
     @commands.command(pass_context=True)
     @commands.has_permissions(administrator=True)
     async def leave(self, ctx):
         await ctx.guild.leave()
-
 
 def setup(bot):
 
