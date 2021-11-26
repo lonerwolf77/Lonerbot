@@ -1,8 +1,6 @@
 import discord
 from discord.ext import commands
-import datetime 
-import time
-from datetime import date
+
 
 import random
 
@@ -14,10 +12,7 @@ class Commands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.Cog.listener()
-    async def on_ready(self):
-        global StartTime
-        StartTime = time.time()
+        
     
 
     @commands.command()
@@ -28,7 +23,7 @@ class Commands(commands.Cog):
             embed.add_field(name="invite", value="Send an invite to the server")
             embed.add_field(name="Random", value="Gives random number from 1-10", inline=False)
             embed.add_field(name="coinflip", value="Flip a coin get heads or tails", inline=False)
-            embed.add_field(name="ping", value="Used to test bot latency", inline=False)
+            embed.add_field(name="status", value="Gives information on the bots status", inline=False)
             embed.add_field(name="tag", value="Get pigdom exlusive commands", inline=False)
 
             await ctx.send(embed=embed)
@@ -47,7 +42,7 @@ class Commands(commands.Cog):
             embed.add_field(name="invite", value="Send an invite to the server")
             embed.add_field(name="random", value="Gives random number from 1-10", inline=False)
             embed.add_field(name="coinflip", value="Flip a coin get heads or tails", inline=False)
-            embed.add_field(name="ping", value="Used to test bot latency", inline=False)
+            embed.add_field(name="status", value="Gives information on the bots status", inline=False)
             embed.add_field(name="tag", value="Get pigdom exlusive commands", inline=False)
 
 
@@ -142,35 +137,16 @@ class Commands(commands.Cog):
     async def meta(self, ctx):
         await ctx.send('Join the meta server: https://discord.gg/vuXVfKN93s')
 
+    @commands.command()
+    async def invite(self, ctx):
+        link = await ctx.channel.create_invite()
+        await ctx.send("Here is your invite " + str(link))
+
+    
 
     @commands.command()
-    async def ping(self, ctx):
-        ping = round(self.bot.latency, 3)
-
-        if self.bot.latency < 0.5:
-            bot_status = ':ok_hand:'
-            color = 0x2ecc71
-
-        elif self.bot.latency < 1:
-            bot_status = ':sunglasses:' 
-            color = 0xf1c40f
-
-        else:
-            bot_status = ':french_bread:'
-            color = 0xe74c3c
-
-
-        embed=discord.Embed(title=str(self.bot.user.name) + ' Status', color=color)
-        embed.set_thumbnail(url=self.bot.user.avatar_url)
-
-        embed.add_field(name="Ping:", value=str(ping) + bot_status)
-
-        uptime = str(datetime.timedelta(seconds=int(round(time.time()- StartTime))))
-        embed.add_field(name="Uptime: ", value=str(uptime), inline=False)
-
-        embed.add_field(name="Version: ", value=discord.__version__+ '  ' +["version"], inline=False)  
-
-        await ctx.send(embed=embed)
+    async def bot_invite(self, ctx):
+        await ctx.send("https://discord.com/api/oauth2/authorize?client_id=720591908963090443&permissions=8&scope=bot")
 
 
         

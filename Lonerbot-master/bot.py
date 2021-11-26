@@ -6,7 +6,9 @@ import sys
 import os
 import json
 from datetime import date
-from discord.utils import get
+import datetime 
+import time
+from datetime import date
 
 
 from discord.ext import commands
@@ -68,10 +70,7 @@ async def on_ready():
     print("Logged in as: " + str(bot.user.name) + " : " + str(bot.user.id) + "\n"
     "\n------------------------------")
     print("Running on discord version: " + discord.__version__, "Today's date:", today)
-
-    with open("l1.txt", 'a') as myfile:
-        myfile.write(f' {today}, ')
-
+    
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.playing,
         name=f"Default prefix: *"))
         
@@ -94,6 +93,9 @@ async def on_ready():
         else:
             print(e)
 
+    global StartTime
+    StartTime = time.time()
+
 @bot.event
 async def on_guild_join(guild):
     with open('Cogs/Json/Servers.json', 'r') as f:
@@ -115,46 +117,9 @@ async def on_guild_remove(guild):
         json.dump(prefixes, f, indent=4)
 
     #<-----------BOT COMMANDS---------->#
-    
-
-class colors:
-    default = 0
-    teal = 0x1abc9c
-    dark_teal = 0x11806a
-    green = 0x2ecc71
-    dark_green = 0x1f8b4c
-    blue = 0x3498db
-    dark_blue = 0x206694
-    purple = 0x9b59b6
-    dark_purple = 0x71368a
-    magenta = 0xe91e63
-    dark_magenta = 0xad1457
-    gold = 0xf1c40f
-    dark_gold = 0xc27c0e
-    orange = 0xe67e22
-    dark_orange = 0xa84300
-    red = 0xe74c3c
-    dark_red = 0x992d22
-    lighter_grey = 0x95a5a6
-    dark_grey = 0x607d8b
-    light_grey = 0x979c9f
-    darker_grey = 0x546e7a
-    blurple = 0x7289da
-    greyple = 0x99aab5
 
 
 
-
-@bot.command()
-async def invite(ctx):
-    link = await ctx.channel.create_invite()
-    await ctx.send("Here is your invite " + str(link))
-
-    
-
-@bot.command()
-async def bot_invite(ctx):
-    await ctx.send("https://discord.com/api/oauth2/authorize?client_id=720591908963090443&permissions=8&scope=bot")
 
 
 @bot.event
@@ -178,9 +143,8 @@ async def list(ctx):
 @bot.event
 async def on_guild_join(ctx):
     guild = bot.get_guild(id)
-
-    gid = str(guild.id)
-    print(f"{gid}")
+   
+    print("Bot joined" + '')
 
 
 
@@ -196,6 +160,41 @@ async def logout(ctx):
     
     else:
         await ctx.send("```Command logout is not found```")
+
+@bot.command()
+async def status(ctx):
+    bot.ping = round(bot.latency, 3)
+
+    if bot.ping == 0:
+        bot_status = 'huh???'
+        color = 0
+
+    elif bot.ping < 0.5:
+        bot_status = ' :green_square:'
+        color = 0x2ecc71
+
+    elif bot.ping < 1.5:
+        bot_status = ' :yellow_square:' 
+        color = 0xf1c40f
+
+    else:
+        bot_status = ' :red_square:'
+        color = 0xe74c3c
+
+
+    embed=discord.Embed(title=str(bot.user.name) + ' Status', color=color)
+    embed.set_thumbnail(url=bot.user.avatar_url)
+
+    embed.add_field(name="Ping: ", value=str(bot.ping) + " " +bot_status, inline=False)
+
+    uptime = str(datetime.timedelta(seconds=int(round(time.time()- StartTime))))
+    embed.add_field(name="Uptime: ", value=str(uptime), inline=False)
+
+    embed.add_field(name="Version: ", value=discord.__version__, inline=False) 
+
+    await ctx.send(embed=embed)
+
+
 
 
 
