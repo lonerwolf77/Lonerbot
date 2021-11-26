@@ -98,9 +98,10 @@ class Commands(commands.Cog):
             maxPlayers = str(json_data["server"]["maxPlayers"])
             platform = json_data["server"]["platform"]    
 
-        except:
+        except Exception as e:
             await ctx.send("Failed to find server.")
-            print("Failed to find a server")
+            await ctx.send("\nError: " + str(e))
+            print("Failed to find server: " + str(e))
             return 
 
 
