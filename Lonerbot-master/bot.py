@@ -66,7 +66,7 @@ today = date.today()
 
 @bot.event
 async def on_ready():
-    os.system('cls')
+    
     print("Logged in as: " + str(bot.user.name) + " : " + str(bot.user.id) + "\n"
     "\n------------------------------")
     print("Running on discord version: " + discord.__version__, "Today's date:", today)
@@ -140,11 +140,16 @@ async def list(ctx):
     await ctx.send(embed=server_embed)
 
 
+@bot.command()
+async def bot_invite(ctx):
+    await ctx.send("https://discord.com/api/oauth2/authorize?client_id=720591908963090443&permissions=8&scope=bot")
+
+
 @bot.event
-async def on_guild_join(ctx):
+async def on_guild_join():
     guild = bot.get_guild(id)
    
-    print("Bot joined" + '')
+    print("Bot joined" + guild)
 
 
 
@@ -193,8 +198,6 @@ async def status(ctx):
     embed.add_field(name="Version: ", value=discord.__version__, inline=False) 
 
     await ctx.send(embed=embed)
-
-
 
 
 

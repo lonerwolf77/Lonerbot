@@ -8,7 +8,7 @@ class AdminCommands(commands.Cog):
         self.bot = bot
 
     @commands.command(pass_context=True)
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(manage_messages=True)
     async def admin_help(self, ctx):
         ad_embed=discord.Embed(title="Admin Help", color=0xff0800)
         ad_embed.add_field(name="---ADMIN COMMANDS---", value="--------")
@@ -41,44 +41,19 @@ class AdminCommands(commands.Cog):
 
         await ctx.send(embed=embed)
 
-        
-    @commands.command()
-    async def data(self, ctx):
-        embed = discord.Embed(title="Server Data", color=0xFF5733)
-        embed.set_thumbnail(url=ctx.guild.icon_url)
-        embed.add_field(name="Server Name", value=ctx.message.guild.name, inline=False)
-        embed.add_field(name="Amount Of Members", value=ctx.guild.member_count, inline=False)
-        embed.add_field(name="Amount Of Roles", value=len(ctx.guild.roles), inline=True)
-
-        text_channel_list = []
-        for channel in ctx.guild.text_channels:
-            text_channel_list.append(channel)
-
-        voice_channel_list = []
-        for channel in ctx.guild.voice_channels:
-            voice_channel_list.append(channel)
-
-        embed.add_field(name="Amount Of Text Channels", value=len(text_channel_list), inline=False)
-        embed.add_field(name="Amount Of Voice Channels", value=len(voice_channel_list), inline=False)
-        await ctx.send(embed=embed)
-
-
-
 
     @commands.command()
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(manage_messages=True)
     async def echo(self, ctx, *, message=None):
 
         message = message
         await ctx.message.delete()
         await ctx.send(message)
 
-
-
         
 
     @commands.command(pass_context=True)
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(ban_members=True)
     async def ban(self, ctx, member: discord.Member = None, *, reason = None):
 
         if reason == None:
@@ -98,7 +73,7 @@ class AdminCommands(commands.Cog):
         
 
     @commands.command(pass_context=True)
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(kick_members=True)
     async def kick(self, ctx, member: discord.Member = None):
 
         if member == None:
@@ -113,17 +88,32 @@ class AdminCommands(commands.Cog):
         
 
     @commands.command(pass_context=True)
-    @commands.has_permissions(administrator=True)
+    @commands.has_permissions(manage_messages=True)
     async def purge(self, ctx, ammount=50):
         await ctx.channel.purge(limit=ammount)
-        
-
-        
 
     @commands.command(pass_context=True)
     @commands.has_permissions(administrator=True)
     async def leave(self, ctx):
         await ctx.guild.leave()
+
+
+    @commands.command(pass_context=True)
+    @commands.has_permissions(manage_messages=True)
+    async def mute(self, ctx, member: discord.Member=None):
+
+        if member == None:
+            await ctx.send("You need to @ someone")
+            return
+
+        #role = self.bot_get(ctx.guild.roles, name='Muted')
+
+        role = self.bot.ctx.guild.roles(ctx.guild.roles, name='Muted')
+
+        await member.add_roles(role)
+        
+
+
 
 def setup(bot):
 

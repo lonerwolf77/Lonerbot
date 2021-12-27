@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-
+import subprocess
 
 import random
 
@@ -17,7 +17,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def help(self, ctx):
-        if ctx.message.author.guild_permissions.administrator:
+        if ctx.message.author.guild_permissions.manage_messages:
             embed=discord.Embed(title="Help", color=0x546e7a)
             embed.add_field(name="help", value="Sends this message", inline=False)
             embed.add_field(name="invite", value="Send an invite to the server")
@@ -84,8 +84,7 @@ class Commands(commands.Cog):
     @commands.command()
     async def server(self, ctx):
         try:
-            arg = 'PigdomSMP'
-            r = requests.get("http://api.minehut.com/server/"+ arg +('?byName=true'))
+            r = requests.get("http://api.minehut.com/server/PigdomSMP?byName=true")
             json_data = r.json()
             description = json_data["server"]["motd"]
             online = str(json_data["server"]["online"])
@@ -110,19 +109,37 @@ class Commands(commands.Cog):
 
         await ctx.send(embed=embed)
         
+
+
+    
+        
+    @commands.command()
+    async def data(self, ctx):
+        embed = discord.Embed(title="Server Data", color=0xFF5733)
+        embed.set_thumbnail(url=ctx.guild.icon_url)
+        embed.add_field(name="Server Name", value=ctx.message.guild.name, inline=False)
+        embed.add_field(name="Amount Of Members", value=ctx.guild.member_count, inline=False)
+        embed.add_field(name="Amount Of Roles", value=len(ctx.guild.roles), inline=True)
+
+        text_channel_list = []
+        for channel in ctx.guild.text_channels:
+            text_channel_list.append(channel)
+
+        voice_channel_list = []
+        for channel in ctx.guild.voice_channels:
+            voice_channel_list.append(channel)
+
+        embed.add_field(name="Amount Of Text Channels", value=len(text_channel_list), inline=False)
+        embed.add_field(name="Amount Of Voice Channels", value=len(voice_channel_list), inline=False)
+        await ctx.send(embed=embed)
+
         
 
     @commands.command(aliases=['flip', 'coin'])
     async def coinflip(self, ctx):
         coinsides = ['Heads', 'Tails']
         await ctx.send(f"**{ctx.author.name}** flipped a coin and got **{random.choice(coinsides)}**!")
-      
-  
-    @commands.command()
-    async def dyno(self, ctx):
-        await ctx.send("https://discord.com/oauth2/authorize?client_id=161660517914509312&scope=bot%20identify%20guilds%20applications.commands&response_type=code&redirect_uri=https://dyno.gg/return&permissions=2134207679&state=o_7uOndog8udOeTHcZpjs")
-
-
+    
     @commands.command()
     async def apply (self, ctx):
         embed=discord.Embed(title="Apply", color=0x00fbff)
@@ -142,11 +159,6 @@ class Commands(commands.Cog):
         link = await ctx.channel.create_invite()
         await ctx.send("Here is your invite " + str(link))
 
-    
-
-    @commands.command()
-    async def bot_invite(self, ctx):
-        await ctx.send("https://discord.com/api/oauth2/authorize?client_id=720591908963090443&permissions=8&scope=bot")
 
 
         
