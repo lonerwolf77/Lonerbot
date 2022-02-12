@@ -9,6 +9,7 @@ from datetime import date
 import datetime 
 import time
 from datetime import date
+from tkinter import *
 
 
 from discord.ext import commands
@@ -73,12 +74,12 @@ async def on_ready():
     
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.playing,
         name=f"Default prefix: *"))
-        
+            
     #As you see here this line of code does cool things
 
     #<-----------LOAD COGS---------->#
 
-    initial_extensions = ["Cogs.ErrorHandeling", "Cogs.AdminHandeling", "Cogs.Customization", "Cogs.Commands"]
+    initial_extensions = ["Cogs.ErrorHandeling", "Cogs.AdminHandeling", "Cogs.Customization", "Cogs.Commands", "Cogs.Pigdom"]
 
     try:
         for extension in initial_extensions:

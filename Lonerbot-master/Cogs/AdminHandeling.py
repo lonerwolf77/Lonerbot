@@ -2,6 +2,8 @@ import discord
 from discord.ext import commands
 import time
 import random
+import json
+
 
 class AdminCommands(commands.Cog):
     def __init__(self, bot):
@@ -111,7 +113,6 @@ class AdminCommands(commands.Cog):
         role = self.bot.ctx.guild.roles(ctx.guild.roles, name='Muted')
 
         await member.add_roles(role)
-        
 
 
 
