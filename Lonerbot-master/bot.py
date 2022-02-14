@@ -1,4 +1,5 @@
-#smh no bad words in my bot.py file
+# Should probably move these commands and events into cogs.
+
 import discord
 import time
 import random
@@ -13,10 +14,7 @@ from tkinter import *
 
 
 from discord.ext import commands
-from sys import platform as _platform, prefix
-
-
-NULL = None
+from sys import platform
 
 async def get_prefix(bot, message):
     with open('Cogs/Json/Servers.json', 'r') as f:
@@ -48,20 +46,14 @@ if token == None:
 bot.remove_command('help')
 
 
-
 #<--------CLEAR CONSOLE--------->#
 
-if _platform == "linux" or _platform == "linux2":
-    #Linux
-    os.system('clear')
-
-elif _platform == "win32" or "win64":
-    #Windows
-    os.system('cls')
-
+if platformm == "windows":
+    os.system("cls")
+else:
+    os.sysem("clear")
+    
 #<-----------BOT EVENTS---------->#
-
-
 
 today = date.today()
 
@@ -119,10 +111,6 @@ async def on_guild_remove(guild):
 
     #<-----------BOT COMMANDS---------->#
 
-
-
-
-
 @bot.event
 async def on_message(message):
     message.content = message.content.lower()
@@ -151,10 +139,6 @@ async def on_guild_join():
     guild = bot.get_guild(id)
    
     print("Bot joined" + guild)
-
-
-
-
 
 @bot.command(pass_context=True)
 async def logout(ctx):
@@ -199,8 +183,5 @@ async def status(ctx):
     embed.add_field(name="Version: ", value=discord.__version__, inline=False) 
 
     await ctx.send(embed=embed)
-
-
-
-
+    
 bot.run(token)
