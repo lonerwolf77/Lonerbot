@@ -100,21 +100,6 @@ class AdminCommands(commands.Cog):
         await ctx.guild.leave()
 
 
-    @commands.command(pass_context=True)
-    @commands.has_permissions(manage_messages=True)
-    async def mute(self, ctx, member: discord.Member=None):
-
-        if member == None:
-            await ctx.send("You need to @ someone")
-            return
-
-        #role = self.bot_get(ctx.guild.roles, name='Muted')
-
-        role = self.bot.ctx.guild.roles(ctx.guild.roles, name='Muted')
-
-        await member.add_roles(role)
-
-
 
 def setup(bot):
 

@@ -9,7 +9,6 @@ from datetime import date
 import datetime 
 import time
 from datetime import date
-from tkinter import *
 
 
 from discord.ext import commands
@@ -74,7 +73,7 @@ async def on_ready():
     
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.playing,
         name=f"Default prefix: *"))
-            
+        
     #As you see here this line of code does cool things
 
     #<-----------LOAD COGS---------->#
@@ -128,44 +127,6 @@ async def on_message(message):
     message.content = message.content.lower()
     await bot.process_commands(message)
 
-
-@bot.command()
-async def list(ctx):
-    guilds = bot.guilds
-
-    server_embed=discord.Embed(title="LonerBot is in " + str(len(bot.guilds)) + " servers", color=0x00fbff)
-
-    for guild in guilds:
-        server_embed.add_field(name="Name: " + str(guild.name), value="Members: " + str(guild.member_count), inline=False)
-
-    await ctx.send(embed=server_embed)
-
-
-@bot.command()
-async def bot_invite(ctx):
-    await ctx.send("https://discord.com/api/oauth2/authorize?client_id=720591908963090443&permissions=8&scope=bot")
-
-
-@bot.event
-async def on_guild_join():
-    guild = bot.get_guild(id)
-   
-    print("Bot joined" + guild)
-
-
-
-
-
-@bot.command(pass_context=True)
-async def logout(ctx):
-
-    if ctx.author.id == 358617608377073665:
-        await ctx.send("**Loging off**")
-        await bot.logout()
-
-    
-    else:
-        await ctx.send("```Command logout is not found```")
 
 @bot.command()
 async def status(ctx):

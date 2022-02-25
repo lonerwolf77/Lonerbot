@@ -45,24 +45,6 @@ class Commands(commands.Cog):
 
 
             await ctx.send(embed=embed)
-        
-
-    @commands.command()
-    async def boost(self, ctx):
-        embed=discord.Embed(title="Boost the discord server!")
-        embed.add_field(name="Access to #boosters", value="a private text channel for boosters")
-        embed.add_field(name="Access to #boost-cmds", value="a secret command channel")
-        embed.add_field(name="Access to #memes", value="a private memes channel")
-        embed.add_field(name="Last but not least", value="you also get a vc")
-
-        await ctx.send(embed=embed)
-
-
-    @commands.command()
-    async def random(self, ctx):
-        number = random.randint(1, 10)
-        await ctx.send(number)
-
 
     @commands.command()
     async def minecraft(self, ctx, arg):
@@ -136,6 +118,35 @@ class Commands(commands.Cog):
 
         channel = self.bot.get_channel(942034077010231336)
         await channel.send(embed=embed)
+
+    @commands.command()
+    async def list(self, ctx):
+        guilds = self.bot.guilds
+
+        server_embed=discord.Embed(title="LonerBot is in " + str(len(self.bot.guilds)) + " servers", color=0x00fbff)
+
+        for guild in guilds:
+            server_embed.add_field(name="Name: " + str(guild.name), value="Members: " + str(guild.member_count), inline=False)
+
+        await ctx.send(embed=server_embed)
+
+
+    @commands.command(pass_context=True)
+    async def logout(self, ctx):
+
+        if ctx.author.id == 358617608377073665:
+            await ctx.send("**Loging off**")
+            await self.bot.logout()
+
+    
+        else:
+            await ctx.send("```Command logout is not found```")
+
+
+
+    @commands.command()
+    async def bot_invite(self, ctx):
+        await ctx.send("https://discord.com/api/oauth2/authorize?client_id=720591908963090443&permissions=8&scope=bot")
 
 
         
